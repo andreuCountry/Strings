@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-char CorrectAnswer[6] = {"salir"}, Answer[80] = {'\0'}, NextLine[1] = {'\n'};
+char CorrectAnswer[6] = {"salir"}, Answer[80] = {'\0'}, AuxAnswer[80] = {'\0'}, NextLine[1] = {'\n'};
 
 void DeleteSpecialCharacters(char Cadena[80]) {
 
@@ -9,11 +9,18 @@ void DeleteSpecialCharacters(char Cadena[80]) {
 }
 
 void ReverseWord(char Cadena[80]) {
-    for (int i = 0; i < strlen(Cadena); i++) {
-        Cadena[i] = Cadena[strlen(Cadena) - i - 1];
-    }
+    
+    // Guardar cadena para compararla, copiando porque los arrays son direcciones de memoria
+    strcpy(AuxAnswer, Cadena);
 
-    fputs(Cadena, stdout);
+    int Length = strlen(Cadena);
+    char Aux;
+
+    for (int i = 0; i < Length / 2; i++) {
+        Aux = Cadena[i];
+        Cadena[i] = Cadena[Length - i - 1];
+        Cadena[Length - i - 1] = Aux;
+    }
 }
 
 int main() {
@@ -28,14 +35,14 @@ int main() {
 
         ReverseWord(Answer);
 
-        if (strcmp(CorrectAnswer, strlwr(Answer)) != 0) {
+        if (strcmp(CorrectAnswer, strlwr(AuxAnswer)) != 0) {
             strcat(TotalWords, Answer);
             strcat(TotalWords, NextLine);
         }
 
         Tries++;
 
-    } while (strcmp(CorrectAnswer, strlwr(Answer)) != 0 && Tries != 20);
+    } while (strcmp(CorrectAnswer, strlwr(AuxAnswer)) != 0 && Tries != 20);
 
     printf("Volcado cadenas introducidas orden inverso. \n");
     fputs(TotalWords, stdout);

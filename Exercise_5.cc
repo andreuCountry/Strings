@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-char Cadenita[255] = {'\0'}, CadenaOcultar[10] = {'\0'}, NewCadenita[255] = {'\0'};
+char Cadenita[255] = {'\0'}, Word[255] = {'\0'}, NewCadenita[255] = {'\0'};
 
 int strlen(char Cadena[]) {
     int contador = 0;
@@ -12,12 +12,12 @@ int strlen(char Cadena[]) {
     return contador;
 }
 
-void DeleteSpecialCharacters(char Cadena[80]) {
+void DeleteSpecialCharacters(char Cadena[]) {
 
     Cadena[strlen(Cadena) - 1] = '\0';
 }
 
-void ReverseWord(char Cadena[80]) {
+void ReverseWord(char Cadena[]) {
     
     int Length = strlen(Cadena);
     char Aux;
@@ -31,6 +31,17 @@ void ReverseWord(char Cadena[80]) {
     }
 }
 
+void AddNewCadena(int Index, char Cadena[]) {
+
+    int LengthWord = strlen(Cadena);
+
+    int contador = 0;
+    for (int i = Index; i < Index + LengthWord; i++) {
+        NewCadenita[i] = Cadena[contador];
+        contador++;
+    }
+}
+
 int main() {
 
     printf("Introducir cadena para evaluar palabras: ");
@@ -38,18 +49,20 @@ int main() {
     int CadenaLenght = strlen(Cadenita);
     DeleteSpecialCharacters(Cadenita);
 
-    printf("Introducir la subcadena para ocultar: ");
-    fgets(CadenaOcultar, 10, stdin);
-    DeleteSpecialCharacters(CadenaOcultar);
+    int LastIndex = 0;
 
     for (int i = 0; i < CadenaLenght - 1; i++) {
-        if (Cadenita[i] == CadenaOcultar[0] && Cadenita[i + 1] == CadenaOcultar[1]) {
-            Cadenita[i] = 'X';
-            Cadenita[i + 1] = 'X';
+        
+        Word[i] = Cadenita[i];
+
+        if (Cadenita[i] == ' ' ||  Cadenita[i] == '\0') {
+            ReverseWord(Word);
+            AddNewCadena(LastIndex, Word);
+            LastIndex = i + 1;
         }
     }
 
-    fputs(Cadenita, stdout);
+    fputs(NewCadenita, stdout);
 
     return 0;
 }

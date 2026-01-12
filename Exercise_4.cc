@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-char Cadenita[255] = {'\0'}, CadenaOcultar[10] = {'\0'}, NewCadenita[255] = {'\0'};
+char Cadenita[255] = {'\0'}, CadenaOcultar[10] = {'\0'};
 
 int strlen(char Cadena[]) {
     int contador = 0;

@@ -41,9 +41,9 @@ int main() {
     int number = Cadena[0];
     int LastCIndex = 0;
 
-    for (int i = 1; i < strlen(Cadena) + 1; i++) {
+    for (int i = 1; i < strlen(Cadena); i++) {
 
-        if (Cadena[i] < 48 && Cadena[i] > 57) {
+        if (Cadena[i] < 48 || Cadena[i] > 57) {
             SubCadena[i - 1] = Cadena[i];
         } else {
             // No entra aqui

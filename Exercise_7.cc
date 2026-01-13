@@ -44,13 +44,13 @@ int main() {
 
     for (int i = 1; i < strlen(Cadena) + 1; i++) {
 
-        if (Cadena[i] < 48 || Cadena[i] > 57 || Cadena[i] != '\0') {
+        if (Cadena[i] < 48 && Cadena[i] > 57) {
             SubCadena[i - 1] = Cadena[i];
         } else {
             // No entra aqui
-            printf("%d", number);
-            printf("%d", strlen(SubCadena));
-            printf("%d", LastCIndex);
+            printf("%d \n", number);
+            printf("%d \n", strlen(SubCadena));
+            printf("%d \n", LastCIndex);
             InsertCadena(number, strlen(SubCadena), LastCIndex);
             ResetCadena(strlen(SubCadena));
             number = Cadena[i];

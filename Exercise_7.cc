@@ -27,7 +27,6 @@ void InsertCadena(int TimesToInsert, int LengthSubCadena, int IndexCadena) {
     for (int i = 0; i < TimesToInsert; i++) {
         for (int j = 0; j < LengthSubCadena; j++) {
             NewCadena[IndexCadena + j] = SubCadena[j];
-            printf("%c", NewCadena[IndexCadena + j]);
         }
 
         IndexCadena += LengthSubCadena - 1;

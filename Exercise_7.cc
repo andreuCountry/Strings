@@ -37,8 +37,9 @@ void InsertCadena(int TimesToInsert, int LengthSubCadena, int IndexCadena) {
 int main() {
     printf("Cadena con numeros para multiplicar dicha cadena: ");
     fgets(Cadena, 255, stdin);
+    DeleteSpecialCharacters(Cadena);
 
-    int number = Cadena[0];
+    int number = Cadena[0] - 48;
     int LastCIndex = 0;
 
     for (int i = 1; i < strlen(Cadena); i++) {
@@ -47,13 +48,10 @@ int main() {
             SubCadena[i - 1] = Cadena[i];
         } else {
             // No entra aqui
-            printf("%d \n", number);
-            printf("%d \n", strlen(SubCadena));
-            printf("%d \n", LastCIndex);
             InsertCadena(number, strlen(SubCadena), LastCIndex);
             ResetCadena(strlen(SubCadena));
-            number = Cadena[i];
-            LastCIndex = strlen(NewCadena) - 1;
+            number = Cadena[i] - 48;
+            LastCIndex = strlen(NewCadena);
         }
     }
 

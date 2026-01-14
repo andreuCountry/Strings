@@ -3,6 +3,10 @@
 char Cadena[255] = {'\0'}, SubCadena[255] = {'\0'}, NewCadena[255] = {'\0'};
 int subIndex = 1;
 
+
+
+// Pensar, la subcadena debe contener el digito de cuantas veces se repite, figura
+
 int strlen(char Cadena[]) {
     int contador = 0;
 

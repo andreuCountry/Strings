@@ -67,9 +67,9 @@ int main() {
 
     printf("\n");
 
-    CompareStrings(FirstWord, SecondWord);
+    bool Comparation = CompareStrings(FirstWord, SecondWord);
 
-    if (CompareStrings) {
+    if (Comparation) {
         printf("La palabra es un palindromoo!!!");
     } else {
         printf("La palabra no es un palindromo .....");

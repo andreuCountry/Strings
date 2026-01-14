@@ -17,18 +17,15 @@ void DeleteSpecialCharacters(char Cadena[80]) {
     Cadena[strlen(Cadena) - 1] = '\0';
 }
 
-void ReverseWord(char Cadena[80]) {
-    
-    int Length = strlen(Cadena);
-    char Aux;
-
-    for (int i = 0; i < Length / 2; i++) {
-        // Necesito una auxiliar para guardar el caracter
-        Aux = Cadena[i];
-        // Necesito cambiar el ultimo caracter para asignarlo al ultimo
-        Cadena[i] = Cadena[Length - i - 1];
-        Cadena[Length - i - 1] = Aux;
+bool CompareStrings(int Index, char Cadena1[], char Cadena2[]) {
+    bool Equal = true;
+    for (int i = 0; i < strlen(Cadena2); i++) {
+        if (Cadena1[Index + i] != Cadena2[i]) {
+            Equal = false;
+        }
     }
+
+    return Equal;
 }
 
 int main() {
@@ -42,10 +39,17 @@ int main() {
     fgets(CadenaOcultar, 10, stdin);
     DeleteSpecialCharacters(CadenaOcultar);
 
-    for (int i = 0; i < CadenaLenght - 1; i++) {
-        if (Cadenita[i] == CadenaOcultar[0] && Cadenita[i + 1] == CadenaOcultar[1]) {
-            Cadenita[i] = 'X';
-            Cadenita[i + 1] = 'X';
+    for (int i = 0; i < CadenaLenght; i++) {
+        // Lógica para añadir en mas de dos characteres, que me mire todos los strings
+
+        if (Cadenita[i] == CadenaOcultar[0]) {
+            bool Comparation = CompareStrings(i, Cadenita, CadenaOcultar);
+            
+            if (Comparation) {
+                for (int j = 0; j < strlen(CadenaOcultar); j++) {
+                    Cadenita[i + j] = 'X';
+                }
+            }
         }
     }
 

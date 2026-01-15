@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 char Cadena[255] = {'\0'}, SubCadena[255] = {'\0'}, NewCadena[255] = {'\0'};
-int subIndex = 1;
+int firstIndex = 0, secondIndex;
 
 
 
@@ -22,19 +22,14 @@ void DeleteSpecialCharacters(char Cadena[]) {
     Cadena[strlen(Cadena) - 1] = '\0';
 }
 
-int InsertCadena(int TimesToInsert, int SubLength, int IndexCadena) {
-    printf("%d \n", TimesToInsert);
-    printf("%d \n", SubLength);
-    printf("%d \n", IndexCadena);
-    for (int i = 0; i < TimesToInsert; i++) {
-        for (int j = 1; j < SubLength + 1; j++) {
+int ImprimirCadena(int Cuantity, int FirstIndex, int SecondIndex) {
 
-            NewCadena[IndexCadena] = SubCadena[j]; 
-            IndexCadena++;
+
+    for (int i = 0; i < Cuantity; i++) {
+        for (int j = FirstIndex + 1; j < SecondIndex; j++) {
+            printf("%c", Cadena[j]);
         }
     }
-
-    // NewCadena[IndexCadena] = SubCadena[IndexSubCadena];
 
     return strlen(NewCadena);
 }
@@ -45,19 +40,19 @@ int main() {
     fgets(Cadena, 255, stdin);
     DeleteSpecialCharacters(Cadena);
 
-    int LastCIndex = 0;
-
     for (int i = 0; i < strlen(Cadena); i++) {
 
-        if (Cadena[i] < 48 || Cadena[i] > 57) {
-            SubCadena[subIndex] = Cadena[i];
-            subIndex++;
-        } else {
-            SubCadena[0] = Cadena[i] - 48;
-            LastCIndex = InsertCadena(SubCadena[0], strlen(SubCadena), LastCIndex);
-            subIndex = 1;
+        if (Cadena[i] >= 48 && Cadena[i] <= 57) {
+            firstIndex = i;
+            for (int j = firstIndex + 1; j < strlen(Cadena) + 1; j++) {
+                if ((Cadena[j] >= 48 && Cadena[j] <= 57) || Cadena[j] == '\0') {
+                    secondIndex = j;
+                    ImprimirCadena(Cadena[firstIndex] - 48, firstIndex, secondIndex);
+                    break;
+                }
+            }
         }
     }
 
-    fputs(NewCadena, stdout);
+    //fputs(NewCadena, stdout);
 }

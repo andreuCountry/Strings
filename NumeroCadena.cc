@@ -3,7 +3,7 @@
 char Cadena[255] = {'\0'}, SubCadena[255] = {'\0'}, NewCadena[255] = {'\0'};
 int firstIndex = 0, secondIndex;
 
-
+bool Fin = false;
 
 // Pensar, la subcadena debe contener el digito de cuantas veces se repite, figura
 
@@ -27,7 +27,9 @@ int ImprimirCadena(int Cuantity, int FirstIndex, int SecondIndex) {
 
     for (int i = 0; i < Cuantity; i++) {
         for (int j = FirstIndex + 1; j < SecondIndex; j++) {
-            printf("%c", Cadena[j]);
+            if (!Fin) {
+                printf("%c", Cadena[j]);
+            }
         }
     }
 
@@ -44,15 +46,14 @@ int main() {
 
         if (Cadena[i] >= 48 && Cadena[i] <= 57) {
             firstIndex = i;
+            Fin = false;
             for (int j = firstIndex + 1; j < strlen(Cadena) + 1; j++) {
                 if ((Cadena[j] >= 48 && Cadena[j] <= 57) || Cadena[j] == '\0') {
                     secondIndex = j;
                     ImprimirCadena(Cadena[firstIndex] - 48, firstIndex, secondIndex);
-                    break;
+                    Fin = true;
                 }
             }
         }
     }
-
-    //fputs(NewCadena, stdout);
 }

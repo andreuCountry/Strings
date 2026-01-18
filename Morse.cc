@@ -187,9 +187,12 @@ void Maps(char Letter, bool IsMorse, int Start, int Index) {
 void MorseIntoHuman() {
     for (int i = 0; i < strlen(Cadena); i++) {
 
-        if (Cadena[i] + 1 == ' ') {
-            Maps(Cadena[i], true, LastIndex, i);
+        if (Cadena[i + 1] == ' ' || Cadena[i + 1] == '\0') {
+            Maps(Cadena[i], true, LastIndex, i + 1);
             LastIndex = i + 2;
+        }
+
+        if (Cadena[i + 1] == ' ' && Cadena[i + 2] == ' ') {
             printf(" ");
         }
     }

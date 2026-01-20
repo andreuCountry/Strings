@@ -25,12 +25,17 @@ void CleanCadena(char Cadena[]) {
     }
 }
 
+void CopyCadena(int Index) {
+    switch (Index) {
+        case 1: 
+    }
+}
+
 int main() {
 
     f = fopen("TablaKM.txt", "r");
     distancia = fopen("distancies.dat", "wb");
 
-    int StartIndex = 0, LastIndex = 0;
     int contador = 0;
 
     do {
@@ -40,6 +45,9 @@ int main() {
 
         if (Character != ';') {
             Cadena[contador] = Character;
+        } else {
+            CopyCadena(StartSpecialIndex);
+            StartSpecialIndex++;
         }
 
     } while (!feof(f));

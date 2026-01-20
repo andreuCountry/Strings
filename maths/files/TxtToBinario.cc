@@ -27,7 +27,16 @@ void CleanCadena(char Cadena[]) {
 
 void CopyCadena(int Index) {
     switch (Index) {
-        case 1: 
+        case 0:
+        
+        break;
+        case 1:
+
+        break;
+
+        case 2:
+
+        break;
     }
 }
 

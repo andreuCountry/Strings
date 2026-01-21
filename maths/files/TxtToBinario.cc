@@ -1,9 +1,10 @@
 #include <stdio.h>
 
 struct Info {
-    char Origen[50], Destino[];
-    int KMLongitud;
+    char Origen[50], Destino[50], KMLongitud[10];
 };
+
+Info InfoToSet;
 
 FILE *f, *distancia;
 int valor;
@@ -25,17 +26,52 @@ void CleanCadena(char Cadena[]) {
     }
 }
 
+void CopyOrigin() {
+    int i;
+    for (i = 0; i < strlen(Cadena); i++) {
+        InfoToSet.Origen[i] = Cadena[i];
+    }
+
+    InfoToSet.Origen[i++] = ';';
+    InfoToSet.Origen[i++] = '\0';
+
+    //fputs(InfoToSet.Origen, stdout);
+}
+
+void CopyDestiny() {
+    int i;
+    for (i = 0; i < strlen(Cadena); i++) {
+        InfoToSet.Destino[i] = Cadena[i];
+    }
+
+    InfoToSet.Destino[i++] = ';';
+    InfoToSet.Destino[i++] = '\0';
+
+    //fputs(InfoToSet.Destino, stdout);
+}
+
+void CopyKm() {
+    int i;
+    for (i = 0; i < strlen(Cadena); i++) {
+        InfoToSet.KMLongitud[i] = Cadena[i];
+    }
+
+    InfoToSet.KMLongitud[i++] = ';';
+    InfoToSet.KMLongitud[i++] = '\0';
+
+    //fputs(InfoToSet.KMLongitud, stdout);
+}
+
 void CopyCadena(int Index) {
     switch (Index) {
         case 0:
-        
+            CopyOrigin();
         break;
         case 1:
-
+            CopyDestiny();
         break;
-
         case 2:
-
+            CopyKm();
         break;
     }
 }
@@ -45,7 +81,7 @@ int main() {
     f = fopen("TablaKM.txt", "r");
     distancia = fopen("distancies.dat", "wb");
 
-    int contador = 0;
+    int contador = 0, StartSpecialIndex = 0;
 
     do {
         // Check de los primeros params, despues vamos a los segundos
@@ -53,10 +89,21 @@ int main() {
         char Character = fgetc(f);
 
         if (Character != ';') {
-            Cadena[contador] = Character;
+            Cadena[contador++] = Character;
         } else {
-            CopyCadena(StartSpecialIndex);
-            StartSpecialIndex++;
+            Cadena[contador] = '\0';
+
+            if (contador > 0) {
+                CopyCadena(StartSpecialIndex);
+                StartSpecialIndex++;
+            } else {
+                StartSpecialIndex = 0;
+                // escribir en el ficherito usando la struct comor esultado
+                fwrite(&InfoToSet, sizeof(struct Info), 1, distancia);
+            }
+
+            contador = 0;
+            CleanCadena(Cadena);
         }
 
     } while (!feof(f));

@@ -75,6 +75,20 @@ void CopyCadena(int Index) {
         break;
     }
 }
+void CleanInfo() {
+    for (int i = 0; i < 50; i++) {
+        InfoToSet.Origen[i] = '\0';
+    }
+
+    for (int i = 0; i < 50; i++) {
+        InfoToSet.Destino[i] = '\0';
+    }
+
+    for (int i = 0; i < 10; i++) {
+        InfoToSet.KMLongitud[i] = '\0';
+    }
+
+}
 
 int main() {
 
@@ -88,25 +102,45 @@ int main() {
 
         char Character = fgetc(f);
 
-        if (Character != ';') {
-            Cadena[contador++] = Character;
-        } else {
-            Cadena[contador] = '\0';
+        if (Character == '\n') {
 
             if (contador > 0) {
+                Cadena[contador] = '\0';
                 CopyCadena(StartSpecialIndex);
-                StartSpecialIndex++;
-            } else {
-                StartSpecialIndex = 0;
-                // escribir en el ficherito usando la struct comor esultado
-                fwrite(&InfoToSet, sizeof(struct Info), 1, distancia);
             }
+
+            // Debuggear
+            /*printf("Origen:   '%s'\n", InfoToSet.Origen);
+            printf("Destino:  '%s'\n", InfoToSet.Destino);
+            printf("Km:       '%s'\n", InfoToSet.KMLongitud);*/
+            fwrite(&InfoToSet, sizeof(struct Info), 1, distancia);
+
+            contador = 0;
+            StartSpecialIndex = 0;
+            CleanCadena(Cadena);
+            CleanInfo();
+
+            continue;
+        }
+
+        if (Character == ';') {
+
+            Cadena[contador] = '\0';
+            CopyCadena(StartSpecialIndex);
+            StartSpecialIndex++;
 
             contador = 0;
             CleanCadena(Cadena);
+            continue;
+        }
+
+        if (contador < 254) {
+            Cadena[contador++] = Character;
         }
 
     } while (!feof(f));
+
+
 
     fclose(f);
     fclose(distancia);

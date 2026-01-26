@@ -10,6 +10,33 @@ struct ContactInfo {
     char email[40];
 };
 
+struct Actualizator {
+    char field[20];
+    char UpdatedField[50];
+};
+
+void ShowUpdateMenu() {
+
+}
+
+void Consultar() {
+
+}
+
+void Updatear() {
+    ShowUpdateMenu();
+
+
+}
+
+void Insert() {
+
+}
+
+void Delete() {
+
+}
+
 void ValidateOption(int Option) {
     
     switch (Option) {

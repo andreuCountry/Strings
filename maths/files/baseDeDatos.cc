@@ -178,20 +178,7 @@ void ShowMenu() {
     }
 }
 
-void CreateBBDD() {
-    Contacts = fopen("contacts.dat", "wb");
-
-    char Cadena[100] = "ID   --   NOMBRE   --   APELLIDO   --   SEGUNDO_APE   --   TELEFONO   --   EMAIL        |";
-    fwrite(&Cadena, sizeof(Cadena), 1, Contacts);
-    char Cadena2[100] = "_________________________________________________________________________________________";
-    fwrite(&Cadena2, sizeof(Cadena2), 1, Contacts);
-    fclose(Contacts);
-
-}
-
 int main() {
-
-    CreateBBDD();
 
     ShowMenu();
 

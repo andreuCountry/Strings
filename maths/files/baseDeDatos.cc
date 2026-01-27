@@ -87,9 +87,12 @@ void Consultar() {
     Contacts = fopen("contacts.dat", "rb");
 
     while (fread(&Contact, sizeof(struct ContactInfo), 1, Contacts)) {
-        for (int i = 0; i < strlen(Contact.name); i++) {
-            printf("%c", Contact.name[i]);
-        }
+        printf("%d \n", Contact.id);
+        printf("%s \n", Contact.name);
+        printf("%s \n", Contact.surname_1);
+        printf("%s \n", Contact.surname_2);
+        printf("%s \n", Contact.phone);
+        printf("%s \n", Contact.email);
     }
 
     fclose(Contacts);
@@ -104,7 +107,7 @@ void Updatear() {
 }
 
 void Insert() {
-    Contacts = fopen("contacts.dat", "ab");
+    Contacts = fopen("contacts.dat", "a+b");
     
     printf("Introduzca nombre: ");
     fgets(Contact.name, 80, stdin);
@@ -125,6 +128,15 @@ void Insert() {
     printf("Introduzca email: ");
     fgets(Contact.email, 40, stdin);
     printf("\n");
+
+
+    // Last id associated, search and add one plus
+    int contador = 0;
+    while(fread(&Contact, sizeof(struct ContactInfo), 1, Contacts)) {
+        contador++;
+    }
+
+    Contact.id = contador + 1;
 
     fwrite(&Contact, sizeof(Contact), 1, Contacts);
 

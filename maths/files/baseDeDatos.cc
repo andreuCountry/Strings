@@ -11,13 +11,9 @@ struct ContactInfo {
     char email[40];
 };
 
-struct Actualizator {
-    char id[20];
-    char field[20];
-    char UpdatedField[50];
-};
+ContactInfo ContactA, ContactModify;
 
-ContactInfo Contact;
+int IDToSearch;
 
 int strlen(char Cadena[]) {
     int contador = 0;
@@ -29,8 +25,54 @@ int strlen(char Cadena[]) {
     return contador;
 }
 
+void DeleteSpecialCharacters(char Cadena[]) {
+
+    Cadena[strlen(Cadena) - 1] = '\0';
+}
+
 void UpdateField(char Option) {
-    // Utilizar Actualizator
+    // Search by actualizator.id and then replace
+
+    Contacts = fopen("contacts.dat", "r+b");
+
+    while (fread(&ContactA, sizeof(struct ContactInfo), 1, Contacts)) {
+        bool Searched = ContactA.id == IDToSearch;
+
+        if (Searched) {
+            fseek(Contacts, -1*sizeof(ContactA), SEEK_CUR);
+            switch (Option) {
+                case '1':
+                    for (int i = 0; i < strlen(Chain); i++) {
+                        ContactA.name[i] = Chain[i];
+                    }
+                break;
+                case '2':
+                    for (int j = 0; j < strlen(Chain); j++) {
+                        ContactA.surname_1[j] = Chain[j];
+                    }
+                break;
+                case '3':
+                    for (int r = 0; r < strlen(Chain); r++) {
+                        ContactA.surname_2[r] = Chain[r];
+                    }
+                break;
+                case '4':
+                    for (int k = 0; k < strlen(Chain); k++) {
+                        ContactA.phone[k] = Chain[k];
+                    }
+                break;
+                case '5':
+                    for (int l = 0; l < strlen(Chain); l++) {
+                        ContactA.email[l] = Chain[l];
+                    }
+                break;
+            }
+            fwrite(&ContactA, sizeof(ContactA), 1, Contacts);
+            fseek(Contacts, 1*sizeof(ContactA), SEEK_CUR);
+        }
+    }
+
+    fclose(Contacts);
 }
 
 void MenuUpdateField(char Option) {
@@ -52,7 +94,18 @@ void MenuUpdateField(char Option) {
         break;
     }
 
-    fgets(Chain, 80, stdin);
+     fgets(Chain, 80, stdin);
+    DeleteSpecialCharacters(Chain);
+
+    if (Option == '4' && strlen(Chain) > 12) {
+        printf("El campo debe ocupar menos de 12 caracteres ... \n");
+        MenuUpdateField('4');
+    }
+
+    printf("\n");
+
+    printf("De que usuario (ID) vas a querer cambiar ese campo? ");
+    scanf("%d", &IDToSearch);
 
     UpdateField(Option);
 }
@@ -83,21 +136,41 @@ void ShowUpdateMenu() {
     }
 }
 
-void Consultar() {
-    Contacts = fopen("contacts.dat", "rb");
+bool Validate() {
+    if ((Contacts = fopen("contacts.dat", "rb")) == NULL) {
+        printf("Error. El fichero contacts.dat no existe");
+        printf("\n\n");
 
-    while (fread(&Contact, sizeof(struct ContactInfo), 1, Contacts)) {
-        printf("%d \n", Contact.id);
-        printf("%s \n", Contact.name);
-        printf("%s \n", Contact.surname_1);
-        printf("%s \n", Contact.surname_2);
-        printf("%s \n", Contact.phone);
-        printf("%s \n", Contact.email);
+        return false;
+    } else {
+        return true;
     }
+}
 
-    fclose(Contacts);
+void Consultar() {
 
-    printf("\n\n");
+    bool IsValid = Validate();
+
+    if (IsValid) {
+        Contacts = fopen("contacts.dat", "rb");
+
+        printf("ID --   NOMBRE   --   APELIIDO   --   SEG_APELLIDO   --   TELEFONO   --   EMAIL         | \n");
+        printf("_________________________________________________________________________________________ \n");
+
+        while (fread(&ContactA, sizeof(struct ContactInfo), 1, Contacts)) {
+            printf("%d   --   ", ContactA.id);
+            printf("%s   --   ", ContactA.name);
+            printf("%s   --   ", ContactA.surname_1);
+            printf("%s   --   ", ContactA.surname_2);
+            printf("%s   --   ", ContactA.phone);
+            printf("%s", ContactA.email);
+            printf("\n");
+        }
+
+        fclose(Contacts);
+
+        printf("\n\n");
+    }
 }
 
 void Updatear() {
@@ -107,38 +180,45 @@ void Updatear() {
 }
 
 void Insert() {
+
+
     Contacts = fopen("contacts.dat", "a+b");
     
     printf("Introduzca nombre: ");
-    fgets(Contact.name, 80, stdin);
+    fgets(ContactA.name, 80, stdin);
+    DeleteSpecialCharacters(ContactA.name);
     printf("\n");
 
     printf("Introduzca primer apellido: ");
-    fgets(Contact.surname_1, 80, stdin);
+    fgets(ContactA.surname_1, 80, stdin);
+    DeleteSpecialCharacters(ContactA.surname_1);
     printf("\n");
 
     printf("Introduzca segundo apellido: ");
-    fgets(Contact.surname_2, 80, stdin);
+    fgets(ContactA.surname_2, 80, stdin);
+    DeleteSpecialCharacters(ContactA.surname_2);
     printf("\n");
 
     printf("Introduzca telefono: ");
-    fgets(Contact.phone, 12, stdin);
+    fgets(ContactA.phone, 12, stdin);
+    DeleteSpecialCharacters(ContactA.phone);
     printf("\n");
 
     printf("Introduzca email: ");
-    fgets(Contact.email, 40, stdin);
+    fgets(ContactA.email, 40, stdin);
+    DeleteSpecialCharacters(ContactA.email);
     printf("\n");
 
 
     // Last id associated, search and add one plus
     int contador = 0;
-    while(fread(&Contact, sizeof(struct ContactInfo), 1, Contacts)) {
+    while(fread(&ContactA, sizeof(struct ContactInfo), 1, Contacts)) {
         contador++;
     }
 
-    Contact.id = contador + 1;
+    ContactA.id = contador + 1;
 
-    fwrite(&Contact, sizeof(Contact), 1, Contacts);
+    fwrite(&ContactA, sizeof(ContactA), 1, Contacts);
 
     fclose(Contacts);
 }

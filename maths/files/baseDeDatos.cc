@@ -104,9 +104,12 @@ void MenuUpdateField(char Option) {
 
     printf("\n");
 
-    printf("De que usuario (ID) vas a querer cambiar ese campo? ");
-    scanf("%d", &IDToSearch);
+    if (Option != '6') {
+        printf("De que usuario (ID) vas a querer cambiar ese campo? ");
+        scanf("%d", &IDToSearch);
 
+    }
+    
     UpdateField(Option);
 }
 
@@ -157,13 +160,13 @@ void Consultar() {
         printf("ID --   NOMBRE   --   APELIIDO   --   SEG_APELLIDO   --   TELEFONO   --   EMAIL         | \n");
         printf("_________________________________________________________________________________________ \n");
 
-        while (fread(&ContactA, sizeof(struct ContactInfo), 1, Contacts)) {
-            printf("%d   --   ", ContactA.id);
-            printf("%s   --   ", ContactA.name);
-            printf("%s   --   ", ContactA.surname_1);
-            printf("%s   --   ", ContactA.surname_2);
-            printf("%s   --   ", ContactA.phone);
-            printf("%s", ContactA.email);
+        while (fread(&ContactModify, sizeof(struct ContactInfo), 1, Contacts)) {
+            printf("%d   --   ", ContactModify.id);
+            printf("%s   --   ", ContactModify.name);
+            printf("%s   --   ", ContactModify.surname_1);
+            printf("%s   --   ", ContactModify.surname_2);
+            printf("%s   --   ", ContactModify.phone);
+            printf("%s", ContactModify.email);
             printf("\n");
         }
 
@@ -181,32 +184,33 @@ void Updatear() {
 
 void Insert() {
 
-
     Contacts = fopen("contacts.dat", "a+b");
+
+    ContactInfo ContactInserted;
     
     printf("Introduzca nombre: ");
-    fgets(ContactA.name, 80, stdin);
-    DeleteSpecialCharacters(ContactA.name);
+    fgets(ContactInserted.name, 80, stdin);
+    DeleteSpecialCharacters(ContactInserted.name);
     printf("\n");
 
     printf("Introduzca primer apellido: ");
-    fgets(ContactA.surname_1, 80, stdin);
-    DeleteSpecialCharacters(ContactA.surname_1);
+    fgets(ContactInserted.surname_1, 80, stdin);
+    DeleteSpecialCharacters(ContactInserted.surname_1);
     printf("\n");
 
     printf("Introduzca segundo apellido: ");
-    fgets(ContactA.surname_2, 80, stdin);
-    DeleteSpecialCharacters(ContactA.surname_2);
+    fgets(ContactInserted.surname_2, 80, stdin);
+    DeleteSpecialCharacters(ContactInserted.surname_2);
     printf("\n");
 
     printf("Introduzca telefono: ");
-    fgets(ContactA.phone, 12, stdin);
-    DeleteSpecialCharacters(ContactA.phone);
+    fgets(ContactInserted.phone, 12, stdin);
+    DeleteSpecialCharacters(ContactInserted.phone);
     printf("\n");
 
     printf("Introduzca email: ");
-    fgets(ContactA.email, 40, stdin);
-    DeleteSpecialCharacters(ContactA.email);
+    fgets(ContactInserted.email, 40, stdin);
+    DeleteSpecialCharacters(ContactInserted.email);
     printf("\n");
 
 
@@ -216,9 +220,9 @@ void Insert() {
         contador++;
     }
 
-    ContactA.id = contador + 1;
+    ContactInserted.id = contador + 1;
 
-    fwrite(&ContactA, sizeof(ContactA), 1, Contacts);
+    fwrite(&ContactInserted, sizeof(ContactInserted), 1, Contacts);
 
     fclose(Contacts);
 }

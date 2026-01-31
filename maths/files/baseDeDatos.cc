@@ -161,13 +161,16 @@ void Consultar() {
         printf("_________________________________________________________________________________________ \n");
 
         while (fread(&ContactModify, sizeof(struct ContactInfo), 1, Contacts)) {
-            printf("%d   --   ", ContactModify.id);
-            printf("%s   --   ", ContactModify.name);
-            printf("%s   --   ", ContactModify.surname_1);
-            printf("%s   --   ", ContactModify.surname_2);
-            printf("%s   --   ", ContactModify.phone);
-            printf("%s", ContactModify.email);
-            printf("\n");
+            if(ContactModify.id != 0) {
+                
+                printf("%d   --   ", ContactModify.id);
+                printf("%s   --   ", ContactModify.name);
+                printf("%s   --   ", ContactModify.surname_1);
+                printf("%s   --   ", ContactModify.surname_2);
+                printf("%s   --   ", ContactModify.phone);
+                printf("%s", ContactModify.email);
+                printf("\n");
+            }
         }
 
         fclose(Contacts);
@@ -228,7 +231,22 @@ void Insert() {
 }
 
 void Delete() {
+    Contacts = fopen("contacts.dat", "r+b");
 
+    printf("De que usuario (ID) vas a querer cambiar ese campo? ");
+    scanf("%d", &IDToSearch);
+
+    while (fread(&ContactA, sizeof(struct ContactInfo), 1, Contacts)) {
+        bool Searched = ContactA.id == IDToSearch;
+
+        if (Searched) {
+            ContactA.id = 0;
+            fseek(Contacts, -1*sizeof(ContactA), SEEK_CUR);
+            fwrite(&ContactA, sizeof(ContactA), 1, Contacts);
+            fseek(Contacts, 1*sizeof(ContactA), SEEK_CUR);
+        }
+    }
+    fclose(Contacts);
 }
 
 void ShowMenu() {

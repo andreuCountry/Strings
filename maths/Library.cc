@@ -43,6 +43,14 @@ namespace KOBE {
         printf("[X]: %f [Y]: %f\n", v.x, v.y);
     }
 
+    void Vec3Print(Vec3 v) {
+        printf("[X]: %f [Y]: %f [Z]: %f\n", v.x, v.y, v.z);
+    }
+
+    void Vec4Print(Vec4 v) {
+        printf("[X]: %f [Y]: %f [Z]: %f [W]: %f\n", v.x, v.y, v.z, v.w);
+    }
+
     Vec2 VPlusV2(Vec2 vector1, Vec2 vector2) {
         Vec2 newVector;
 
@@ -197,6 +205,80 @@ namespace KOBE {
 
         return newVector;
     }
+
+    Vec4 Vec4Normalize(Vec4 vector) {
+        float divisor = sqrtf(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z + vector.w * vector.w);
+
+        Vec4 newVector;
+
+        newVector.x = vector.x / divisor;
+        newVector.y = vector.y / divisor;
+        newVector.z = vector.z / divisor;
+        newVector.w = vector.w / divisor;
+
+        return newVector;
+    }
+
+    bool IsVector2Normalize(Vec2 vector) {
+        if (Vec2Length(vector) == 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    bool IsVector3Normalize(Vec3 vector) {
+        if (Vec3Length(vector) == 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    bool IsVector4Normalize(Vec4 vector) {
+        if (Vec4Length(vector) == 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    Vec2 InitializeVec2(float x, float y) {
+
+        Vec2 v = {x, y};
+
+        return v;
+    }
+
+    Vec3 InitializeVec3(float x, float y, float z) {
+
+        Vec3 v = {x, y, z};
+
+        return v;
+    }
+
+    Vec4 InitializeVec4(float x, float y, float z, float w) {
+
+        Vec4 v = {x, y, z, w};
+
+        return v;
+    }
+
+    Vec2 PerpendicularVec2Metod1(Vec2 vector) {
+        Vec2 newVector;
+
+        newVector.x = -v.y;
+        newVector.y = v.x;
+
+        return newVector;
+    }
+
+    Vec2 PerpendicularVec2Metod2(Vec2 vector) {
+        Vec2 newVector;
+
+        newVector.x = v.y;
+        newVector.y = -v.x;
+    }
 }
 
 int main(int argc, char** argv) {
@@ -228,7 +310,10 @@ int main(int argc, char** argv) {
     //KOBE::Vec2Print(v1);
     //KOBE::Vec2Print(v2);
 
-    printf("Length vector: [%f]  [%f], %f", v.x, v.y, KOBE::Vec2Length(v));
+    printf("Length vector: [%f]  [%f], %f \n", v.x, v.y, KOBE::Vec2Length(v));
+
+    KOBE::Vec2 v3 = KOBE::InitializeVec2(1, 1);
+    printf("[X]: %f [Y]: %f", v3.x, v3.y);
 
   return 0;
 }

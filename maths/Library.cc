@@ -304,17 +304,21 @@ void DrawLineTop(KOBE::Vec2 initialPoint) {
 
 
     KOBE::Vec2 vectorPerp = KOBE::VMultpV2(normalizedVector, lengthVector * 0.25);
-    vectorPerp = KOBE::VPlusV2(vectorPerp, initialPoint);
 
     // next step
 
     KOBE::Vec2 vperp1 = KOBE::PerpendicularVec2Metod1(vectorPerp);
+    KOBE::Vec2 vperp2 = KOBE::PerpendicularVec2Metod2(vectorPerp);
     vperp1 = KOBE::VPlusV2(vperp1, vectorScalable);
+    vperp2 = KOBE::VPlusV2(vperp2, vectorScalable);
 
     KOBE::Vec2Print(vperp1);
 
     esat::DrawLine(initialPoint.x, initialPoint.y, vectorScalable.x, vectorScalable.y);
     esat::DrawLine(vectorScalable.x, vectorScalable.y, vperp1.x, vperp1.y);
+    esat::DrawLine(vectorScalable.x, vectorScalable.y, vperp2.x, vperp2.y);
+    esat::DrawLine(vperp1.x, vperp1.y, positionX, positionY);
+    esat::DrawLine(vperp2.x, vperp2.y, positionX, positionY);
 }
 
 int esat::main(int argc, char** argv) {

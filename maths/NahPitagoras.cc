@@ -4,7 +4,6 @@
 #include <esat/input.h>
 #include <esat/sprite.h>
 #include <esat/math.h>
-#include <stdio.h>
 #include <math.h>
 
 const int knPoints = 60;

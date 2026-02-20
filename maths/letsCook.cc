@@ -12,14 +12,13 @@ const int knPoints = 12;
 esat::Vec3 g_circle[knPoints];
 
 void InitCircle() {
-
+    float angle = 6.28f / (float) knPoints;
     for (int i = 0; i < knPoints; ++i) {
-        esat::Mat3 vertexes = {g_circle};
         g_circle[i] = {cosf(angle * i), sinf(angle * i), 1.0f};
     }
 }
 
-void UpdateCircle() {
+esat::Mat3 UpdateCircle() {
     esat::Mat3 m = esat::Mat3Identity();
     m = esat::Mat3Multiply(esat::Mat3Scale(180.0f, 180.0f), m);
     m = esat::Mat3Multiply(esat::Mat3Rotate(esat::Time() * 0.001f), m);

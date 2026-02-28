@@ -40,7 +40,8 @@ void Homogeneixar(int points, esat::Vec3 vector[], float goat) {
     }
 }
 
-esat::Mat3 UpdateFigurita(esat::Vec2 scale, float rotateSpeed, esat::Vec2 whereMove) {
+esat::Mat3 UpdateFigurita(esat::Vec2 scale, float rotateSpeed, esat::Vec2 whereMove, int numberFigures) {
+    
     esat::Mat3 m = esat::Mat3Identity();
     m = esat::Mat3Multiply(esat::Mat3Scale(scale.x, scale.y), m);
     m = esat::Mat3Multiply(esat::Mat3Rotate(rotateSpeed), m);
@@ -72,7 +73,7 @@ int esat::main(int argc, char **argv) {
     WindowSetMouseVisibility(true);
 
     Homogeneixar(6, g_figurita, homogeneic);
-    esat::Mat3 matriz = UpdateFigurita({20.0f, 20.0f}, 0.0f, {0.0f, 80.0f});
+    esat::Mat3 matriz = UpdateFigurita({20.0f, 20.0f}, 0.0f, {0.0f, 80.0f}, 6);
 
     while(esat::WindowIsOpened() && !esat::IsSpecialKeyDown(esat::kSpecialKey_Escape)) {
 

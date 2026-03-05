@@ -40,12 +40,12 @@ void Homogeneixar(int points, esat::Vec3 vector[], float goat) {
     }
 }
 
-esat::Mat3 UpdateFigurita(esat::Vec2 scale, float rotateSpeed, esat::Vec2 whereMove, int numberFigures) {
+esat::Mat3 UpdateFigurita(esat::Vec2 scale, float angle, esat::Vec2 whereMove) {
     
     esat::Mat3 m = esat::Mat3Identity();
     m = esat::Mat3Multiply(esat::Mat3Scale(scale.x, scale.y), m);
-    m = esat::Mat3Multiply(esat::Mat3Rotate(rotateSpeed), m);
     m = esat::Mat3Multiply(esat::Mat3Translate(whereMove.x, whereMove.y), m);
+    m = esat::Mat3Multiply(esat::Mat3Rotate(angle), m);
 
     return m;
 }
@@ -73,14 +73,24 @@ int esat::main(int argc, char **argv) {
     WindowSetMouseVisibility(true);
 
     Homogeneixar(6, g_figurita, homogeneic);
-    esat::Mat3 matriz = UpdateFigurita({20.0f, 20.0f}, 0.0f, {0.0f, 80.0f}, 6);
+
+    float angle = 6.28f / 6;
+    float angle2 = 6.28f / 12;
 
     while(esat::WindowIsOpened() && !esat::IsSpecialKeyDown(esat::kSpecialKey_Escape)) {
 
     	esat::DrawBegin();
     	esat::DrawClear(120,120,120);
 
-        DrawFigurita(matriz, 6);
+        for (int i = 0; i < 6; i++) {
+            esat::Mat3 matriz = UpdateFigurita({20.0f, 20.0f}, angle * i, {0.0f, -80.0f});
+            DrawFigurita(matriz, 6);
+        }
+
+        for (int i = 0; i < 12; i++) {
+            esat::Mat3 matriz = UpdateFigurita({30.0f, 30.0f}, angle2 * i, {0.0f, 140.0f});
+            DrawFigurita(matriz, 6);
+        }
 
     	esat::DrawEnd();
         esat::WindowFrame();

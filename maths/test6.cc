@@ -22,7 +22,10 @@ void InitCircle(int points) {
 esat::Mat3 UpdateFigurita(esat::Vec2 scale, float angle, esat::Vec2 whereMove) {
     
     esat::Mat3 m = esat::Mat3Identity();
-    m = esat::Mat3Multiply(esat::Mat3Scale(scale.x, scale.y), m);
+
+    float angleRotate = cosf(esat::Time() * 0.001f);
+
+    m = esat::Mat3Multiply(esat::Mat3Scale(scale.x * angleRotate, scale.y * angleRotate), m);
     m = esat::Mat3Multiply(esat::Mat3Translate(whereMove.x, whereMove.y), m);
     m = esat::Mat3Multiply(esat::Mat3Rotate(angle), m);
 

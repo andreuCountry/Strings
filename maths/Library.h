@@ -286,4 +286,18 @@ namespace KOBE {
 
         return newVector;
     }
+
+    Vec3 PerpendicularVec3Method1(Vec3 vector) {
+        Vec3 newVector;
+
+        newVector.x = -vector.y;
+        newVector.y = vector.x;
+        newVector.z = 1.0f;
+
+        return newVector;
+    }
+
+    float Vec3DocProduct(esat::Vec3 vector, esat::Vec3 normal) {
+        return (vector.x * normal.x) + (vector.y * normal.y) + (vector.z * normal.z);
+    }
 }

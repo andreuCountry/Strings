@@ -81,12 +81,22 @@ void DrawMatriz(esat::Mat4 m) {
         // transformacion de vertices en algo temporal
         esat::Vec4 tmp = esat::Mat4TransformVec4(m, g_cube[i]);
 
+        // float r = 1.0f / tmp.w
+        // we can use instead tmp.x * r and tmp.y * r
         tr_cube[i].x = tmp.x / tmp.w;
         tr_cube[i].y = tmp.y / tmp.w;
     }
 
     for (int i = 0; i < 12; i++) {
         esat::DrawLine(tr_cube[edges[i][0]].x, tr_cube[edges[i][0]].y,tr_cube[edges[i][1]].x, tr_cube[edges[i][1]].y);
+        //esat::DrawLine(tr_cube[i].x, tr_cube[i].y, tr_cube[(i +1) % knPoints].x, tr_cube[(i +1) % knPoints].y);
+        //esat::DrawLine(tr_cube[i].x, tr_cube[i].y, tr_cube[i + knPoints].x, tr_cube[i + knPoints].y);
+        /*esat::DrawLine(
+            tr_cube[i + knPoints].x, 
+            tr_cube[i + knPoints].y,
+            tr_cube[(i + 1) % knPoints + knPoints].x,
+            tr_cube[(i + 1) % knPoints + knPoints].y    
+        );*/
     }
 }
 

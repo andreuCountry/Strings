@@ -8,6 +8,7 @@
 
 const int knPoints = 10;
 esat::Vec3 g_star[knPoints];
+esat::Vec3 g_orbits[36];
 
 void InitPentagon() {
 
@@ -18,6 +19,25 @@ void InitPentagon() {
         } else {
             g_star[i] = {cosf(angle * i) * 0.5f, sinf(angle * i) * 0.5f, 1.0f};
         }
+    }
+}
+
+void InitOrbits() {
+    float angle = 6.28f / (float) 36;
+
+    for (int i = 0; i < 36; i++) {
+        g_orbits[i] = {cosf(angle * i), sinf(angle * i), 1.0f};
+    }
+}
+
+void Serialize(esat::Mat3 m) {
+
+    esat::Vec2 g_orbit[36];
+
+    for (int i = 0; i < 36; i++) {
+        esat::Vec3 tmp = esat::Mat3TransformVec3(m, g_orbits[i]);
+
+        g_orbit[i] = {tmp.x, tmp.y};
     }
 }
 
@@ -36,6 +56,7 @@ esat::Mat3 UpdateFigureHeredada(esat::Vec2 scale, float angle, esat::Mat3 base, 
 esat::Mat3 UpdateFigure(esat::Vec2 scale, float angle, esat::Vec2 translate) {
     esat::Mat3 m = esat::Mat3Identity();
 
+    m = esat::Mat3Multiply(esat::Mat3Rotate(esat::Time() * 0.001f), m);
     m = esat::Mat3Multiply(esat::Mat3Scale(scale.x, scale.y), m);
     m = esat::Mat3Multiply(esat::Mat3Rotate(angle), m);
     m = esat::Mat3Multiply(esat::Mat3Translate(translate.x, translate.y), m);
@@ -64,7 +85,8 @@ int esat::main(int argc, char **argv) {
     WindowSetMouseVisibility(true);
 
     InitPentagon();
-    float angle = 6.28f / (float) 5;
+    float angle = 6.28f / (float) 10;
+    float angle2 = 6.28f / (float) 3;
     while(esat::WindowIsOpened() && !esat::IsSpecialKeyDown(esat::kSpecialKey_Escape)) {
 
     	esat::DrawBegin();
@@ -74,7 +96,13 @@ int esat::main(int argc, char **argv) {
         DrawStar(matriz);
 
         for (int i = 0; i < 3; i++) {
-            esat::Mat3 heredada = UpdateFigureHeredada({2.0f, 2.0f}, angle * i, matriz, i + 1);
+            esat::Mat3 matrizBigger = UpdateFigure({150.0f, 50.0f}, angle2 * i, {400.0f, 300.0f});
+            DrawStar(matrizBigger);
+
+            esat::Mat3 matrizHeredar = UpdateFigure({100.0f - 20.0f * i, 100.0f + 20.0f * i}, 0.0f, {400.0f, 300.0f});
+            Serialize(matrizHeredar);
+
+            esat::Mat3 heredada = UpdateFigureHeredada({0.2f, 0.2f}, angle * i, matrizHeredar, i + 1);
             DrawStar(heredada);
         }
         
